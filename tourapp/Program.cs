@@ -22,6 +22,8 @@ builder.Services.AddScoped<IPlaceDL , PlaceDL>();
 builder.Services.AddScoped<IPlaceBL , PlaceService>();
 builder.Services.AddScoped<ITourDL , TourDL>();
 builder.Services.AddScoped<ITourBL , TourService>();
+builder.Services.AddScoped<IReviewDL, ReviewDL>();
+builder.Services.AddScoped<IReviewBL, ReviewService>();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(c =>
 {
