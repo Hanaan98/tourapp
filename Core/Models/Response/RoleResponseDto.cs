@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DL.DbModels
+namespace Core.Models.Response
 {
-    public enum Role
+    public enum RoleResponseDto
     {
         Admin,
         Customer
