@@ -29,9 +29,9 @@ namespace BL
         {
             return await tourDL.GetTour(tourId);
         }
-        public async Task<IEnumerable<TourResponseDto>> GetAllTours()
+        public async Task<IEnumerable<TourResponseDto>> GetAllTours(Guid? PlaceId)
         {
-            var tours = await tourDL.GetAllTours();
+            var tours = await tourDL.GetAllTours(PlaceId);
             return tours;
         }
         public async Task DeleteTour(Guid tourId)

@@ -20,7 +20,19 @@ namespace DL.Mapper
                 StartDate = tour.StartDate,
                 TotalSeats = tour.TotalSeats,
                 RemainingSeats = tour.RemainingSeats,
+                Place = MapPlace(tour.Place),
             };
+
+            
+        }
+        private static PlaceResponseDto MapPlace(PlaceDbDto place)
+        {
+            if (place == null)
+            {
+                return null;
+            }
+
+            return PlaceMapper.toPlaceResponse(place);
         }
     }
 }

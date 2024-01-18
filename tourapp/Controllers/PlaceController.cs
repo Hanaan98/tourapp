@@ -1,26 +1,25 @@
-﻿using BL;
-using Core.Interfaces.BL;
+﻿using Core.Interfaces.BL;
 using Core.Models.Request;
 using Core.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace tourapp.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class TourController : Controller
+    [ApiController]
+    public class PlaceController : ControllerBase
     {
-        ITourBL tourService;
-        public TourController(ITourBL _service)
+        IPlaceBL placeService;
+        public PlaceController(IPlaceBL _service)
         {
-            tourService = _service;
+            placeService = _service;
         }
         [HttpGet("")]
-        public async Task<IActionResult> GetAllTours(Guid? PlaceId)
+        public async Task<IActionResult> GetAllPlaces()
         {
             try
             {
-                var places = await tourService.GetAllTours(PlaceId);
+                var places = await placeService.GetAllPlaces();
 
                 return Ok(places);
             }
@@ -31,11 +30,11 @@ namespace tourapp.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<IActionResult> GetTourById(Guid Id)
+        public async Task<IActionResult> GetPlaceById(Guid Id)
         {
             try
             {
-                var place = await tourService.GetTour(Id);
+                var place = await placeService.GetPlace(Id);
 
                 return Ok(place);
             }
@@ -46,13 +45,17 @@ namespace tourapp.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> Create(TourRequestDto _tour)
+        public async Task<IActionResult> Create(PlaceRequestDto _place)
         {
+            if (_place.Location == null || _place.Description == null || _place.Departure == null || _place.Details == null || _place.Image == null)
+            {
+                return BadRequest("All fields are required");
+            }
 
             try
             {
-                await tourService.SaveTour(_tour);
-                return Ok("Tour Created Successfully");
+                await placeService.SavePlace(_place);
+                return Ok("Place Created Successfully");
             }
             catch (System.Exception ex)
             {
@@ -61,15 +64,15 @@ namespace tourapp.Controllers
 
         }
 
-        [HttpPut("update/{Id}")]
+        [HttpPut("edit/{Id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditTour(Guid Id, TourRequestDto tourRequestdata)
+        public async Task<IActionResult> EditPlace(Guid Id, PlaceRequestDto placeRequestdata)
         {
 
             try
             {
-                TourResponseDto tour = await tourService.UpdateTour(Id, tourRequestdata);
-                return Ok(tour);
+                PlaceResponseDto place = await placeService.UpdatePlace(Id, placeRequestdata);
+                return Ok(place);
             }
             catch (System.Exception ex)
             {
@@ -80,12 +83,12 @@ namespace tourapp.Controllers
 
         [HttpDelete("{Id}")]
         //[Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeleteTour(Guid Id)
+        public async Task<IActionResult> DeletePlace(Guid Id)
         {
 
             try
             {
-                await tourService.DeleteTour(Id);
+                await placeService.DeletePlace(Id);
                 return Ok("Deleted Successfully");
             }
             catch (System.Exception ex)
