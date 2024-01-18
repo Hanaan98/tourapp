@@ -5,7 +5,8 @@ namespace DL.Mapper
 {
     public class PlaceMapper
     {
-        public static PlaceResponseDto toPlaceResponse(PlaceDbDto place){
+        public static PlaceResponseDto toPlaceResponse(PlaceDbDto place)
+        {
             return new PlaceResponseDto
             {
                 Id = place.Id,

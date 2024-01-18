@@ -47,7 +47,7 @@ namespace tourapp.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(PlaceRequestDto _place)
         {
-            if(_place.Location == null || _place.Description == null   || _place.Departure == null || _place.Details == null || _place.Image == null)
+            if (_place.Location == null || _place.Description == null || _place.Departure == null || _place.Details == null || _place.Image == null)
             {
                 return BadRequest("All fields are required");
             }

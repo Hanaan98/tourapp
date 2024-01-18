@@ -16,11 +16,11 @@ namespace tourapp.Controllers
             tourService = _service;
         }
         [HttpGet("")]
-        public async Task<IActionResult> GetAllTours()
+        public async Task<IActionResult> GetAllTours(Guid? PlaceId)
         {
             try
             {
-                var places = await tourService.GetAllTours();
+                var places = await tourService.GetAllTours(PlaceId);
 
                 return Ok(places);
             }
@@ -61,7 +61,7 @@ namespace tourapp.Controllers
 
         }
 
-        [HttpPut("edit/{Id}")]
+        [HttpPut("update/{Id}")]
         //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditTour(Guid Id, TourRequestDto tourRequestdata)
         {

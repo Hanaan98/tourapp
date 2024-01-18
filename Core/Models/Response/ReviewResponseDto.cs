@@ -6,18 +6,15 @@ using System.Threading.Tasks;
 
 namespace Core.Models.Response
 {
-    public class TourResponseDto
+    public class ReviewResponseDto
     {
         public Guid Id { get; set; }
+        public float Rating { get; set; }
+        public string Comment { get; set; } = "";
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public Guid PlaceId { get; set; }
-        public DateTime StartDate { get; set; }
-
-        public int TotalSeats { get; set; }
-        public int RemainingSeats { get; set; }
-
+        public Guid UserId { get; set; }
+        public AuthResponseDto User { get; set; }
         public PlaceResponseDto Place { get; set; }
-
-        
     }
-
 }

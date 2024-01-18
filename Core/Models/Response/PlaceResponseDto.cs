@@ -1,6 +1,6 @@
 namespace Core.Models.Response
 {
-    [Serializable]
+   
     public class PlaceResponseDto
     {
         public Guid Id { get; set; }

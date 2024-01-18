@@ -1,4 +1,4 @@
-using Core.Interfaces.DL;
+﻿using Core.Interfaces.DL;
 using Core.Models.Request;
 using Core.Models.Response;
 using DL.DbModels;
@@ -38,7 +38,7 @@ namespace DL
             PlaceDbDto place = await _db.Places.FindAsync(placeId);
             if (place == null)
             {
-                return null;
+                throw new Exception("Invalid Place Id");
             }
             place.Days = _place.Days;
             place.Departure = _place.Departure;
@@ -57,6 +57,10 @@ namespace DL
         public async Task<PlaceResponseDto> GetPlace(Guid placeId)
         {
             PlaceDbDto place = await _db.Places.FindAsync(placeId);
+            if(place == null)
+            {
+                throw new Exception("No Place Found");
+            }
             return place != null ? PlaceMapper.toPlaceResponse(place) : null;
         }
         public async Task<IEnumerable<PlaceResponseDto>> GetAllPlaces()
@@ -74,7 +78,7 @@ namespace DL
             PlaceDbDto place = await _db.Places.FirstOrDefaultAsync(p => p.Id == placeId);
             if (place == null)
             {
-                // return;
+                throw new Exception("Place not found");
             }
             else
             {

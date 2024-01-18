@@ -1,6 +1,6 @@
 namespace Core.Models.Request
 {
-    [Serializable]
+    
     public class PlaceRequestDto
     {
         public string Location { get; set; } = "";

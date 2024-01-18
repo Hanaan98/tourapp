@@ -24,7 +24,7 @@ namespace DL
             PlaceDbDto place = await _db.Places.FindAsync(tour.PlaceId);
             if (place == null)
             {
-                return null;
+                throw new Exception("Place not found");
             }
             TourDbDto newTour = new TourDbDto()
             {
@@ -45,7 +45,7 @@ namespace DL
             TourDbDto tour = await _db.Tours.FindAsync(tourId);
             if (tour == null)
             {
-                return null;
+                throw new Exception("Tour not found");
             }
             tour.StartDate = _tour.StartDate != default ? _tour.StartDate : tour.StartDate;
             tour.TotalSeats = _tour.TotalSeats != default ? _tour.TotalSeats : tour.TotalSeats;
@@ -57,14 +57,28 @@ namespace DL
         }
         public async Task<TourResponseDto> GetTour(Guid tourId)
         {
-            TourDbDto tour = await _db.Tours.FindAsync(tourId);
+            TourDbDto tour = await _db.Tours.Include(t => t.Place).SingleOrDefaultAsync(t => t.Id == tourId);
+            if (tour == null)
+            {
+                throw new Exception("Tour not found");
+            }
             return TourResponseMapper.toTourResponse(tour);
         }
-        public async Task<IEnumerable<TourResponseDto>> GetAllTours()
+        public async Task<IEnumerable<TourResponseDto>> GetAllTours(Guid? PlaceId)
         {
-            List<TourResponseDto> _tours = await _db.Tours.Select(_tour =>
-                TourResponseMapper.toTourResponse(_tour)
-             ).ToListAsync();
+            if (PlaceId == null)
+            {
+                return await _db.Tours
+                    .Include(t => t.Place) 
+                    .Select(_tour => TourResponseMapper.toTourResponse(_tour))
+                    .ToListAsync();
+            }
+
+            List<TourResponseDto> _tours = await _db.Tours
+                .Where(tour => tour.PlaceId == PlaceId)
+                .Include(t => t.Place)
+                .Select(_tour => TourResponseMapper.toTourResponse(_tour))
+                .ToListAsync();
 
             return _tours;
         }
@@ -74,7 +88,7 @@ namespace DL
 
             if (tour == null)
             {
-                
+                throw new Exception("Tour not found");
             }
             else
             {

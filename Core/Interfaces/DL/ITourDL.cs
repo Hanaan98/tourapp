@@ -13,7 +13,7 @@ namespace Core.Interfaces.DL
         public Task<TourResponseDto> SaveTour(TourRequestDto tour);
         public Task<TourResponseDto> UpdateTour(Guid tourId, TourRequestDto tour);
         public Task<TourResponseDto> GetTour(Guid tourId);
-        public Task<IEnumerable<TourResponseDto>> GetAllTours();
+        public Task<IEnumerable<TourResponseDto>> GetAllTours(Guid? PlaceId);
 
         public Task DeleteTour(Guid tourId);
     }
